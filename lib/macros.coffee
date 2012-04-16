@@ -6,7 +6,9 @@ define ['jquery'], ($) ->
     for own name of macros
       matches = $("*[data-macro='" + name + "']", context)
       count += matches.size()
-      matches.replaceWith macros[name]
+      matches.replaceWith ->
+        result = macros[name].bind(this)()
+        result = result.render()  if result.render?
       # TODO: below may be incorrect sometimes
       throw "Error: macro " + name + " did not remove all existing elements"  if matches.size() > 0 and matches.html() is $("*[data-macro='" + name + "']", context).html()
     count

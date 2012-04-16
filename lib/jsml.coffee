@@ -43,6 +43,8 @@ define ['jquery'], ($) ->
     attrs: attrs
     children: args
     toString: ->
+      @render()
+    render: ->
       tag2str this
 
   XSS = (s) ->
@@ -70,6 +72,8 @@ define ['jquery'], ($) ->
         attrs[key] = JSON.parse(value)
 
     tagname = selector.match(/^[A-Za-z0-9\-\:]*/)[0]
+    tagname = 'div'  if not tagname
+
     id = selector.match(/#[^\s#\.^\[]+/g)
     cls = selector.match(/\.[^\s#\.^\[]+/g)
     cls = cls.join(" ").replace(/\./g, "")  if cls

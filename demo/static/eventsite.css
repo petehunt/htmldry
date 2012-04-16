@@ -1,0 +1,40 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.sidebar-nav {
+  padding: 9px 0;
+}
+.tSubtle {
+  color: #999;
+}
+.tTimeHeader {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 3px;
+  margin: 5px auto;
+  margin-bottom: 10px;
+}
+.tEvent {
+  border-bottom: 1px dotted #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.tEvent:last-child {
+  border-bottom: none;
+}
+.tEventTitle {
+  line-height: 1.1;
+  margin-left: 20px;
+}
+.tEventTitle a {
+  color: inherit;
+}
+.tEventLinks {
+  margin-left: 2px;
+}
+.tEventScore {
+  margin-left: -10px;
+  text-align: center;
+  width: 32px;
+}

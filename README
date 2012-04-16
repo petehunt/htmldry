@@ -1,1 +1,6 @@
 Write custom tags in JS. This will eventually be awesome since you can do client-side and server-side rendering seamlessly. For now it's awesome because you can prototype stuff with repetitive components much more quickly.
+
+TODO:
+- Ajax example
+- HTTP reverse proxy for server-side with any framework
+- html-to-jsml live edit tool

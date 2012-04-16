@@ -4,4 +4,4 @@ require({
             CoffeeScript: 'thirdparty/coffee-script',
         },
         baseUrl: '../'
-    }, ['cs!demo/app']);
+    }, ['cs!demo/demo']);
