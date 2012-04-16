@@ -1,4 +1,70 @@
 define ['jquery'], ($) ->
+
+  jsml_attr = (tag, attrs, include_attrs = false) ->
+    classes = ''
+    classes = '.' + attrs['class'].value.split(' ').join('.')  if attrs['class']
+    id = ''
+    id = '#' + attrs['id']  if attrs['id']
+    attrlist = []
+    if attrs.length > 0 and include_attrs
+      for i in [0..attrs.length-1]
+        item = attrs.item(i)
+
+        if item.name == 'class' or item.name == 'id'
+          continue
+        attrlist.push item.name + '=' + JSON.stringify(item.value)
+      if attrlist.length == 0
+        attrlist = ''
+      else
+        attrlist = '[' + attrlist.join(',') + ']'
+    return tag + id + classes + attrlist
+
+  domattr2dict = (attrs) ->
+    if attrs.length == 0
+      return {}
+    ret = {}
+    for i in [0..attrs.length - 1]
+      item = attrs.item(i)
+      ret[item.name] = item.value
+    ret
+
+  count_dict = (d) ->
+    count = 0
+    for own k of d
+      count += 1
+    count
+
+  html2jsml = (node, indent, include_attrs = false) ->
+    if not indent?
+      indent = ''
+
+    switch node.nodeType
+      when Node.ELEMENT_NODE
+        open = indent + "o " + JSON.stringify(jsml_attr(node.tagName.toLowerCase(), node.attributes, include_attrs))
+        if not include_attrs
+          attrs = domattr2dict(node.attributes)
+          delete attrs['id']
+          delete attrs['class']
+          count = count_dict(attrs)
+          if count > 0
+            open += ', ' + JSON.stringify(attrs)
+
+        if node.childNodes.length > 0
+          open += ','
+          # optimization for single text nodes
+          if node.childNodes.length == 1 and node.childNodes[0].nodeType == Node.TEXT_NODE
+            child_content = html2jsml(node.childNodes[0], '', include_attrs)
+            open += ' ' + child_content  if child_content?
+            return open
+          indent += '  '
+          for child in node.childNodes
+            child_content = html2jsml(child, indent, include_attrs)
+            open += '\n' + child_content  if child_content?
+        open
+      when Node.TEXT_NODE
+        if node.textContent.trim().length > 0
+          indent + JSON.stringify(node.textContent.trim())
+
   SELF_CLOSE =
     br: true
     hr: true
@@ -88,5 +154,6 @@ define ['jquery'], ($) ->
 
   $.T = generic_tag
   $.T.XSS = XSS
+  $.T.html2jsml = html2jsml
 
   $.T
