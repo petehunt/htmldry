@@ -3,5 +3,5 @@ require({
             cs: 'thirdparty/cs',
             CoffeeScript: 'thirdparty/coffee-script',
         },
-        baseUrl: '../'
-    }, ['cs!demo/demo']);
+        baseUrl: '../../'
+    }, ['cs!demos/eventsite/demo']);
