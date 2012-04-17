@@ -17,6 +17,8 @@ define ['jquery'], ($) ->
         attrlist = ''
       else
         attrlist = '[' + attrlist.join(',') + ']'
+    if tag == 'div' and (id.length > 0 or classes.length > 0)
+      tag = ''
     return tag + id + classes + attrlist
 
   domattr2dict = (attrs) ->
@@ -50,16 +52,20 @@ define ['jquery'], ($) ->
             open += ', ' + JSON.stringify(attrs)
 
         if node.childNodes.length > 0
-          open += ','
           # optimization for single text nodes
           if node.childNodes.length == 1 and node.childNodes[0].nodeType == Node.TEXT_NODE
             child_content = html2jsml(node.childNodes[0], '', include_attrs)
-            open += ' ' + child_content  if child_content?
+            open += ', ' + child_content  if child_content?
             return open
           indent += '  '
+          first = true
           for child in node.childNodes
             child_content = html2jsml(child, indent, include_attrs)
-            open += '\n' + child_content  if child_content?
+            if child_content?
+              if first
+                first = false
+                open += ','
+              open += '\n' + child_content
         open
       when Node.TEXT_NODE
         if node.textContent.trim().length > 0
