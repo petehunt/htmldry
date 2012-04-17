@@ -4,7 +4,7 @@ define ['jquery'], ($) ->
     classes = ''
     classes = '.' + attrs['class'].value.split(' ').join('.')  if attrs['class']
     id = ''
-    id = '#' + attrs['id']  if attrs['id']
+    id = '#' + attrs['id'].value  if attrs['id']
     attrlist = []
     if attrs.length > 0 and include_attrs
       for i in [0..attrs.length-1]
